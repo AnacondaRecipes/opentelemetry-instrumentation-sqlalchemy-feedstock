@@ -1,46 +1,56 @@
 {% set name = "opentelemetry-instrumentation-sqlalchemy" %}
-{% set version = "0.36b0" %}
+{% set version = "0.58b0" %}
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/opentelemetry_instrumentation_sqlalchemy-{{ version }}.tar.gz
-  sha256: a19f0ae419832da77f50b3a7c3cbdadbe3c0bd690bfabb98977cd94383b75820
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name.replace('-', '_')}}-{{ version }}.tar.gz
+  sha256: 3e4b444a05088ba473710df9d5c730bb08969c8ea71e04f2886a0f7efee22c12
 
 build:
-  noarch: python
-  script: {{ PYTHON }} -m pip install . -vv
   number: 0
+  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+  skip: true  # [py<39]
 
 requirements:
   host:
-    - python >=3.7
+    - python
     - pip
     - hatchling
   run:
-    - python >=3.7
-    - opentelemetry-api >=1.12,<2.dev0
-    - opentelemetry-instrumentation ==0.36b0
-    - opentelemetry-semantic-conventions ==0.36b0
+    - python
+    - opentelemetry-api >=1.12,<2
+    - opentelemetry-instrumentation =={{ version }}
+    - opentelemetry-semantic-conventions =={{ version }}
     - packaging >=21.0
     - wrapt >=1.11.2
+  run_constrained:
+    - sqlalchemy >=1.0.0,<2.1.0
 
+# Tests disabled:
+# E   ModuleNotFoundError: No module named 'opentelemetry.test'
+# https://pypi.org/project/opentelemetry-test-utils, not in the main channel.
 test:
   imports:
-    - opentelemetry
-    - opentelemetry.instrumentation
+    - opentelemetry.instrumentation.sqlalchemy
   commands:
     - pip check
   requires:
     - pip
+    - sqlalchemy >=1.0.0,<2.1.0
 
 about:
   home: https://github.com/open-telemetry/opentelemetry-python-contrib/tree/main/instrumentation/opentelemetry-instrumentation-sqlalchemy
   summary: OpenTelemetry SQLAlchemy instrumentation
   license: Apache-2.0
+  license_family: Apache
   license_file: LICENSE
+  description: |
+    This library allows tracing requests made by the SQLAlchemy library.
+  dev_url: https://github.com/open-telemetry/opentelemetry-python-contrib/tree/main/instrumentation/opentelemetry-instrumentation-sqlalchemy
+  doc_url: https://github.com/open-telemetry/opentelemetry-python-contrib/blob/main/instrumentation/opentelemetry-instrumentation-sqlalchemy/README.rst
 
 extra:
   recipe-maintainers:
