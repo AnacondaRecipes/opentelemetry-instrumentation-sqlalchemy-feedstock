@@ -1,5 +1,5 @@
 {% set name = "opentelemetry-instrumentation-sqlalchemy" %}
-{% set version = "0.58b0" %}
+{% set version = "0.59b0" %}
 
 package:
   name: {{ name|lower }}
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name.replace('-', '_')}}-{{ version }}.tar.gz
-  sha256: 3e4b444a05088ba473710df9d5c730bb08969c8ea71e04f2886a0f7efee22c12
+  sha256: 7647b1e63497deebd41f9525c414699e0d49f19efcadc8a0642b715897f62d32
 
 build:
   number: 0
