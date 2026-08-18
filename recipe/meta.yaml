@@ -1,23 +1,23 @@
 {% set name = "opentelemetry-instrumentation-sqlalchemy" %}
-{% set version = "0.59b0" %}
+{% set version = "0.64b0" %}
 
 package:
-  name: {{ name|lower }}
+  name: {{ name }}
   version: {{ version }}
 
 source:
   url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name.replace('-', '_')}}-{{ version }}.tar.gz
-  sha256: 7647b1e63497deebd41f9525c414699e0d49f19efcadc8a0642b715897f62d32
+  sha256: dd737e0b0a72500961aa0dbb6fb2a10525f8dbb5299f9315ddf82d415cc64719
 
 build:
   number: 0
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
-  skip: true  # [py<39]
+  skip: true  # [py<310]
 
 requirements:
   host:
-    - python
     - pip
+    - python
     - hatchling
   run:
     - python
